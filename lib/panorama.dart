@@ -47,6 +47,7 @@ class Panorama extends StatefulWidget {
     this.onLongPressEnd,
     this.child,
     this.hotspots,
+    this.onSceneCreated,
   }) : super(key: key);
 
   /// The initial latitude, in degrees, between -90 and 90. default to 0 (the vertical center of the image).
@@ -121,11 +122,15 @@ class Panorama extends StatefulWidget {
   /// This event will be called when the user has stopped a long presses, it contains latitude and longitude about where the user pressed.
   final Function(double longitude, double latitude, double tilt) onLongPressEnd;
 
+  final Function(Scene scene) onSceneCreated;
+
   /// Specify an Image(equirectangular image) widget to the panorama.
   final Image child;
 
   /// Place widgets in the panorama.
   final List<Hotspot> hotspots;
+
+
 
   @override
   _PanoramaState createState() => _PanoramaState();
@@ -319,6 +324,9 @@ class _PanoramaState extends State<Panorama> with SingleTickerProviderStateMixin
       _loadTexture(widget.child.image);
       scene.world.add(surface);
       WidgetsBinding.instance.addPostFrameCallback((_) => _updateView());
+    }
+    if (widget.onSceneCreated != null) {
+      widget.onSceneCreated(this.scene);
     }
   }
 
