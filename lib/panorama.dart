@@ -122,7 +122,7 @@ class Panorama extends StatefulWidget {
   /// This event will be called when the user has stopped a long presses, it contains latitude and longitude about where the user pressed.
   final Function(double longitude, double latitude, double tilt)? onLongPressEnd;
 
-  final Function(Scene scene) onSceneCreated;
+  final Function(Scene? scene)? onSceneCreated;
 
   /// Specify an Image(equirectangular image) widget to the panorama.
   final Image? child;
@@ -326,7 +326,7 @@ class _PanoramaState extends State<Panorama> with SingleTickerProviderStateMixin
       WidgetsBinding.instance!.addPostFrameCallback((_) => _updateView());
     }
     if (widget.onSceneCreated != null) {
-      widget.onSceneCreated(this.scene);
+      widget.onSceneCreated!(scene);
     }
   }
 
